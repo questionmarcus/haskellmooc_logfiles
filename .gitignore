@@ -1,0 +1,6 @@
+__pycache__/
+
+*.pyc
+
+# Ignore .json files as they are just duplications of .log files
+*.json
