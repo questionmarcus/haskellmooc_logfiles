@@ -81,23 +81,32 @@ def userSessions(data, max_pause_length=10):
     """
     userSessions = {}
     for user in data:
+        # Create List of timestamps as datetime objects, which can be sorted
         timestamps = []
         for obj in data[user]:
+            # timestamp strings in ISO format
             timestamps.append(datetime.datetime.strptime(
                 obj['timestamp'], "%Y-%m-%dT%H:%M:%S.%f%z"
                 ))
+
+        # Create variables needed
         sessStart = currTime = prevTime = None
         n = 0
         sessions = []
         session = {}
+
+        # Go through every timestamp in order of appearance
         for time in sorted(timestamps):
             currTime = time
             if not sessStart:
+                # if session start not define, (at start of data) define it
                 sessStart = currTime
             if prevTime:
+                # Once there are two times to compare, calc inter event time
                 IET = currTime - prevTime # IET (Inter Event Time)
                 if IET > datetime.timedelta(0,60*max_pause_length):
                     # if IET > 10 minutes (600 seconds)
+                   n += 1
                    sessTime = prevTime - sessStart
                    session['start'] = sessStart.isoformat()
                    session['end'] = prevTime.isoformat()
@@ -110,11 +119,14 @@ def userSessions(data, max_pause_length=10):
                 else:
                     n += 1
             prevTime = currTime
-        session['Start'] = sessStart.isoformat()
-        session['End'] = prevTime.isoformat()
-        session['Inputs'] = n
+        # Once last input is record, define this as end of the session
+        session['start'] = sessStart.isoformat()
+        session['end'] = prevTime.isoformat()
+        session['inputs'] = n
         session['duration (s)'] = (prevTime - sessStart).total_seconds()
         sessions.append(session)
+        
+        # Add session to dict
         userSessions[user] = sessions
     return userSessions
 
