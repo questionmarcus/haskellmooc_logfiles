@@ -8,8 +8,8 @@ def main():
     repoFolder = "https://github.com/wimvanderbauwhede/haskelltutorials/tree/master/static/js"
     tutorialURLS = fetchTutorialPages(repoFolder)
     pagesData = getTutorialPages(tutorialURLS)
-    for page in pagesData:
-        print(getLessonObjects(page))
+    print(pagesData)
+    print(processPages(pagesData))
 
 
 def fetchTutorialPages(baseURL):
@@ -33,13 +33,36 @@ def getTutorialPages(urls):
             tutHTML.append(requests.get(url).text)
         return tutHTML
 
+def processPages(htmlList):
+    for page in htmlList:
+        objects = getLessonObjects(page)
+        for jsonObj in objects:
+            return (codeTagScrape(jsonObj))
+    
+
 def getLessonObjects(htmlData):
     jsonObjects = regex.findall(r"\{(?:[^{}]|(?R))*\}", htmlData)
     objs = []
     for obj in jsonObjects:
         # if "lesson:" in obj:
         objs.append(regex.sub("(\s{2,}|\\\')", "", obj))
+    # Remove all empty objects
+    objs.remove("{}")
     return objs
+
+def codeTagScrape(jsonObjStr):
+    stopWords = ["help", "next", "prev", "start", "back", "context", "show", "undo"]
+    print(jsonObjStr)
+    if jsonObjStr != "":
+        helperText = regex.findall("<code>([^<>]*)</code>", jsonObjStr)
+        for stopWord in stopWords:
+            if any([stopWord == text for text in helperText]):
+                helperText.remove(stopWord)
+        return helperText
+    else:
+        return []
+
+
 
 
 if __name__ == "__main__":
