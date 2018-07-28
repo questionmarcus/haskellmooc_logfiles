@@ -2,12 +2,36 @@
 import sys
 import json
 import datetime
+from requests import get
 
 def main():
-    d = logfileParser(sys.argv[1:])
-    saveAsJSON("logdata.json", d)
+    args = sys.argv[1:]
+    if args[0] == "--web":
+        if len(args) == 1:
+            urls = ['https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server0.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server1.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server2.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/2018.log']
+            d = webParse(urls)
+        else:
+            d = webParse(args[1:])
+    else:
+        d = logfileParser(sys.argv[1:])
+    saveAsJSON("data/logdata.json", d)
     US = userSessions(d)
-    saveAsJSON("UserSessions.json", US)
+    saveAsJSON("data/UserSessions.json", US)
+
+def webParse(urls):
+    if type(urls) is not list:
+        return webParse([urls])
+    else:
+        data = {}
+        for url in urls:
+            response = get(url)
+            for line in response.text.split("\n")[:-1]:
+                user,logdata = lineParser(line)
+                if user not in data:
+                    data[user] = []
+                data[user].append(logdata)
+        return data
+
 
 def logfileParser(files):
     """
