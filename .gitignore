@@ -5,3 +5,6 @@ __pycache__/
 
 # Ignore .json files as they are just duplications of .log files
 *.json
+
+# Ignore URLs file used for testing
+logdataURLs

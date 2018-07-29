@@ -1,22 +1,36 @@
 #!/usr/bin/env python3
 import sys
+import argparse
 import json
 import datetime
 from requests import get
 
 def main():
-    args = sys.argv[1:]
-    if args[0] == "--web":
-        if len(args) == 1:
-            urls = ['https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server0.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server1.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server2.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/2018.log']
-            d = webParse(urls)
-        else:
-            d = webParse(args[1:])
+    parser = argparse.ArgumentParser(
+        description="Commandline utility to take server log files and convert"
+            +"them to json files. Expects files to be in the format."
+            +" <date:yyyy-mm-dd> <time:hh-MM-ss.ms> <timezone> <userID> > <user input>"
+            +" Returns 2 files: <PREFIX>-logdata.json and <PREFIX>-UserSessions.json,"
+            +" the prefix for which is set with the -o flag.",
+        epilog="Written by Marcus Lancaster as part of an MSc Summer Project at"
+            +" Glasgow University. Supervised by Jeremy Singer."
+            )
+    parser.add_argument("--web", help="If this flag is set the input file(s) will"
+        +" instead be read as URL(s) and be downloaded and parsed if a connection"
+        +" is available.")
+    parser.add_argument("-i", "--input", nargs="+", required=True,
+            help="The filepath(s) or URL(s) (if --web flag is set) to parse")
+    parser.add_argument("-o", "--output", nargs=1, required=True,
+            help="The output file PREFIX for the final parsed json file")
+    args = parser.parse_args(sys.argv[1:])
+    if args.web != None:
+            #urls = ['https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server0.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server1.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server2.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/2018.log']
+        d = webParse(args.input)
     else:
-        d = logfileParser(sys.argv[1:])
-    saveAsJSON("data/logdata.json", d)
+        d = logfileParser(args.input)
     US = userSessions(d)
-    saveAsJSON("data/UserSessions.json", US)
+    saveAsJSON(args.output[0]+"-logdata.json", d)
+    saveAsJSON(args.output[0]+"-UserSessions.json", US)
 
 def webParse(urls):
     if type(urls) is not list:
