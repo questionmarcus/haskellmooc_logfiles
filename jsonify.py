@@ -24,7 +24,6 @@ def main():
             help="The output file PREFIX for the final parsed json file")
     args = parser.parse_args(sys.argv[1:])
     if args.web != None:
-            #urls = ['https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server0.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server1.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/server2.log', 'https://raw.githubusercontent.com/jeremysinger/haskellmooc_logfiles/master/2018.log']
         d = webParse(args.input)
     else:
         d = logfileParser(args.input)

@@ -1,25 +1,40 @@
 #!/usr/bin/env python
 import sys
+import argparse
 import requests
 import regex
 import json
+from jsonify import saveAsJSON
 
 def main():
-    args = sys.argv[1:]
-    if args[0] == "--web":
-        if len(args) == 1:
-            repoFolder = "https://github.com/wimvanderbauwhede/haskelltutorials/tree/master/static/js"
-            tutorialURLS = fetchTutorialPages(repoFolder)
-            pagesData = getTutorialPages(tutorialURLS)
-        else:
-            pagesData = getTutorialPages(args)
+    parser = argparse.ArgumentParser(
+        description="Commandline utility to take analyse the javascript used to"
+            +" run the haskell MOOC  in order to find all help text enclosed in"
+            +" the <code>[HELP TEXT]</code>."
+            +" Dictionary object is written to a json object specified in the OUTPUT"
+            +" argument",
+        epilog="Written by Marcus Lancaster as part of an MSc Summer Project at"
+            +" Glasgow University. Supervised by Jeremy Singer."
+            )
+    parser.add_argument("--web", help="If this flag is set the input file(s) will"
+        +" instead be read as URL(s) and be downloaded and parsed if a connection"
+        +" is available.")
+    parser.add_argument("-i", "--input", nargs="+", required=True,
+            help="The filepath(s) or URL(s) (if --web flag is set) to parse")
+    parser.add_argument("-o", "--output", nargs=1, required=True,
+            help="The output file PREFIX for the final parsed json file")
+    args = parser.parse_args(sys.argv[1:])
+    if args.web != None:
+        pagesData = getTutorialPages(args.input)
     else:
         pagesData = []
-        for filepath in args:
+        for filepath in args.input:
             with open(filepath, "r") as page:
                 pagesData.append("".join(page.readlines()))
 
-    print(processPages(pagesData))
+    dataDict = processPages(pagesData)
+    saveAsJSON(args.output[0],dataDict)
+    #print(dataDict)
 
 
 def fetchTutorialPages(baseURL):
@@ -45,13 +60,22 @@ def getTutorialPages(urls):
 
 def processPages(htmlList):
     helpTextDic = {}
+    non_unique = []
     for tutNum,page in enumerate(htmlList):
         objects = getLessonObjects(page)
-        helpTextDic["tutorial"+str(tutNum+1)] = []
+        # helpTextDic["tutorial"+str(tutNum+1)] = []
         for jsonObj in objects:
             helpText = codeTagScrape(jsonObj)
             if len(helpText) != 0:
-                helpTextDic["tutorial"+str(tutNum+1)].append(helpText)
+                for index,val in enumerate(helpText):
+                    if val in helpTextDic:
+                        helpTextDic.pop(val)
+                        print("removing "+val+" as a duplicated was found")
+                    elif val in non_unique:
+                        print("duplicate already removed for "+val)
+                    else:
+                        helpTextDic[val] = {"tutorial":tutNum,"lesson":index}
+                # helpTextDic["tutorial"+str(tutNum+1)].append(helpText)
     return helpTextDic
     
 
@@ -66,13 +90,12 @@ def getLessonObjects(htmlData):
     return objs
 
 def codeTagScrape(jsonObjStr):
-    stopWords = ["help", "next", "prev", "start", "back", "context", "show", "undo", "step\d+"]
+    stopWords = ["help", "next", "prev", "start", "back", "context", "show",
+            "undo", "step\d+", "erase", "reset", "wipe"]
     if jsonObjStr != "":
         helperText = regex.findall("<code>([^<>]*)</code>", jsonObjStr)
         for stopWord in stopWords:
             helperText = [text for text in helperText if not bool(regex.match(stopWord, text))]
-#            if any([bool(regex.match(stopWord,text)) for text in helperText]):
-#                helperText.remove(stopWord)
         return helperText
     else:
         return None
