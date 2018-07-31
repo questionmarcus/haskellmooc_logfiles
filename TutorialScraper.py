@@ -27,10 +27,10 @@ def main():
     if args.web != None:
         pagesData = getTutorialPages(args.input)
     else:
-        pagesData = []
+        pagesData = {}
         for filepath in args.input:
             with open(filepath, "r") as page:
-                pagesData.append("".join(page.readlines()))
+                pagesData[filepath.split("/")[-1].split(".")[0]] = page.read()
 
     dataDict = processPages(pagesData)
     saveAsJSON(args.output[0],dataDict)
@@ -61,21 +61,19 @@ def getTutorialPages(urls):
 def processPages(htmlList):
     helpTextDic = {}
     non_unique = []
-    for tutNum,page in enumerate(htmlList):
-        objects = getLessonObjects(page)
-        # helpTextDic["tutorial"+str(tutNum+1)] = []
+    for tutNum in htmlList:
+        objects = getLessonObjects(htmlList[tutNum])
         for jsonObj in objects:
             helpText = codeTagScrape(jsonObj)
             if len(helpText) != 0:
                 for index,val in enumerate(helpText):
                     if val in helpTextDic:
                         helpTextDic.pop(val)
-                        print("removing "+val+" as a duplicated was found")
+                        print("removing "+val+" as a duplicated was found in:"+tutNum)
                     elif val in non_unique:
                         print("duplicate already removed for "+val)
                     else:
                         helpTextDic[val] = {"tutorial":tutNum,"lesson":index}
-                # helpTextDic["tutorial"+str(tutNum+1)].append(helpText)
     return helpTextDic
     
 
