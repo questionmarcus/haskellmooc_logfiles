@@ -75,7 +75,7 @@ def processPages(htmlList):
                     else:
                         helpTextDic[val] = {"tutorial":tutNum,"lesson":index}
     return helpTextDic
-    
+
 
 def getLessonObjects(htmlData):
     jsonObjects = regex.findall(r"\{(?:[^{}]|(?R))*\}", htmlData)
