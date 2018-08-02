@@ -63,10 +63,10 @@ def processPages(htmlList):
     non_unique = []
     for tutNum in htmlList:
         objects = getLessonObjects(htmlList[tutNum])
-        for jsonObj in objects:
+        for index,jsonObj in enumerate(objects):
             helpText = codeTagScrape(jsonObj)
             if len(helpText) != 0:
-                for index,val in enumerate(helpText):
+                for val in helpText:
                     if val in helpTextDic:
                         helpTextDic.pop(val)
                         print("removing "+val+" as a duplicated was found in:"+tutNum)
