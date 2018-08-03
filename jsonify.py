@@ -2,7 +2,7 @@
 import sys
 import argparse
 import json
-import datetime
+from datetime import datetime,timedelta
 from requests import get
 
 def main():
@@ -43,6 +43,8 @@ def webParse(urls):
                 if user not in data:
                     data[user] = []
                 data[user].append(logdata)
+        for user in data:
+            sortData(data[user])
         return data
 
 
@@ -55,7 +57,7 @@ def logfileParser(files):
         ...
         "user idN":[{timestamp0, input0},...,{timestampN,inputN}]
     }
-    
+
     Keyword Arguments:
     files -- A single file name, or a list of files.
     """
@@ -70,12 +72,14 @@ def logfileParser(files):
                     if user not in data:
                         data[user] = []
                     data[user].append(logdata)
+        for user in data:
+            sortData(data[user])
         return data
 
 def lineParser(line):
     """
     Converts individual lines of log files into constituent components.
-    Returns the user ID and an opject containing the timestamp and the 
+    Returns the user ID and an opject containing the timestamp and the
     code written.
 
     Keyword Arguments:
@@ -90,7 +94,7 @@ def lineParser(line):
     # Convert time to ISO8601 datetime string (assume all times UTC)
     datetimeString = '{0}T{1}+0000'.format(date, time)
     return user,{"timestamp":datetimeString,"input":code.strip()}
-                
+
 def saveAsJSON(filename, values):
     """
     Creates a file in JSON format from python dictionary object.
@@ -122,7 +126,7 @@ def userSessions(data, max_pause_length=10):
         timestamps = []
         for obj in data[user]:
             # timestamp strings in ISO format
-            timestamps.append(datetime.datetime.strptime(
+            timestamps.append(datetime.strptime(
                 obj['timestamp'], "%Y-%m-%dT%H:%M:%S.%f%z"
                 ))
 
@@ -141,7 +145,7 @@ def userSessions(data, max_pause_length=10):
             if prevTime:
                 # Once there are two times to compare, calc inter event time
                 IET = currTime - prevTime # IET (Inter Event Time)
-                if IET > datetime.timedelta(0,60*max_pause_length):
+                if IET > timedelta(0,60*max_pause_length):
                     # if IET > 10 minutes (600 seconds)
                    n += 1
                    sessTime = prevTime - sessStart
@@ -162,11 +166,15 @@ def userSessions(data, max_pause_length=10):
         session['inputs'] = n
         session['duration (s)'] = (prevTime - sessStart).total_seconds()
         sessions.append(session)
-        
+
         # Add session to dict
         userSessions[user] = sessions
     return userSessions
 
+def sortData(userLogData):
+    return userLogData.sort(
+            key=lambda x: datetime.strptime(x["timestamp"],"%Y-%m-%dT%H:%M:%S.%f%z")
+            )
 
 if __name__ == "__main__":
     main()

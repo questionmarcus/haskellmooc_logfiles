@@ -16,7 +16,7 @@ def main():
         epilog="Written by Marcus Lancaster as part of an MSc Summer Project at"
             +" Glasgow University. Supervised by Jeremy Singer."
             )
-    parser.add_argument("--web", help="If this flag is set the input file(s) will"
+    parser.add_argument("--web", action="store_true", help="If this flag is set the input file(s) will"
         +" instead be read as URL(s) and be downloaded and parsed if a connection"
         +" is available.")
     parser.add_argument("-i", "--input", nargs="+", required=True,
@@ -24,18 +24,15 @@ def main():
     parser.add_argument("-o", "--output", nargs=1, required=True,
             help="The output file PREFIX for the final parsed json file")
     args = parser.parse_args(sys.argv[1:])
-    if args.web != None:
-        pagesData = getTutorialPages(args.input)
+
+    if args.web == True:
+        pagesData = webLoadPageData(args.input)
     else:
-        pagesData = {}
-        for filepath in args.input:
-            with open(filepath, "r") as page:
-                pagesData[filepath.split("/")[-1].split(".")[0]] = page.read()
+        pagesData = fileLoadPageData(args.input)
 
     dataDict = processPages(pagesData)
     saveAsJSON(args.output[0],dataDict)
     #print(dataDict)
-
 
 def fetchTutorialPages(baseURL):
     res = requests.get(baseURL)
@@ -46,17 +43,18 @@ def fetchTutorialPages(baseURL):
         tutURLS[i] = regex.sub("\/blob", "", tutURL)
     return ["https://raw.githubusercontent.com"+url for url in tutURLS]
 
-def getTutorialPages(urls):
-    if urls == None:
-        raise ValueError("No urls provided")
-    elif type(urls) != list:
-        return getTutorialPages([urls])
-    else:
-        tutHTML = []
-        for url in urls:
-            print("Downloading HTML for: "+url)
-            tutHTML.append(requests.get(url).text)
-        return tutHTML
+def webLoadPageData(urls):
+    pagesData = {}
+    for url in urls:
+        pagesData[url.split("/")[-1].split(".")[0]] = requests.get(url).text
+    return pagesData
+
+def fileLoadPageData(filepaths):
+    pagesData = {}
+    for filepath in filepaths:
+        with open(filepath, "r") as page:
+            pagesData[filepath.split("/")[-1].split(".")[0]] = page.read()
+    return pagesData
 
 def processPages(htmlList):
     helpTextDic = {}
@@ -75,7 +73,6 @@ def processPages(htmlList):
                     else:
                         helpTextDic[val] = {"tutorial":tutNum,"lesson":index}
     return helpTextDic
-
 
 def getLessonObjects(htmlData):
     jsonObjects = regex.findall(r"\{(?:[^{}]|(?R))*\}", htmlData)
@@ -97,9 +94,6 @@ def codeTagScrape(jsonObjStr):
         return helperText
     else:
         return None
-
-
-
 
 if __name__ == "__main__":
     main()
