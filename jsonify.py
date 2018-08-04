@@ -15,15 +15,15 @@ def main():
         epilog="Written by Marcus Lancaster as part of an MSc Summer Project at"
             +" Glasgow University. Supervised by Jeremy Singer."
             )
-    parser.add_argument("--web", help="If this flag is set the input file(s) will"
-        +" instead be read as URL(s) and be downloaded and parsed if a connection"
-        +" is available.")
+    parser.add_argument("--web", action="store_true", help="If this flag is set"
+            +" the input file(s) will instead be read as URL(s) and be downloaded"
+            +" and parsed if a connection is available.")
     parser.add_argument("-i", "--input", nargs="+", required=True,
             help="The filepath(s) or URL(s) (if --web flag is set) to parse")
     parser.add_argument("-o", "--output", nargs=1, required=True,
             help="The output file PREFIX for the final parsed json file")
     args = parser.parse_args(sys.argv[1:])
-    if args.web != None:
+    if args.web == True:
         d = webParse(args.input)
     else:
         d = logfileParser(args.input)
@@ -32,6 +32,20 @@ def main():
     saveAsJSON(args.output[0]+"-UserSessions.json", US)
 
 def webParse(urls):
+    """
+    Transforms log data contained sourced from data hosted online
+    into a python dictionary format in the format:
+    {
+        "user id0":[{timestamp0, input0},...,{timestampN,inputN}],
+        ...
+        "user idN":[{timestamp0, input0},...,{timestampN,inputN}]
+    }
+
+    dictionaries are then sorted based on their timestamp
+
+    Keyword Arguments:
+    urls -- A single url, or a list of urls.
+    """
     if type(urls) is not list:
         return webParse([urls])
     else:
@@ -57,6 +71,8 @@ def logfileParser(files):
         ...
         "user idN":[{timestamp0, input0},...,{timestampN,inputN}]
     }
+
+    dictionaries are then sorted based on their timestamp
 
     Keyword Arguments:
     files -- A single file name, or a list of files.
@@ -172,6 +188,13 @@ def userSessions(data, max_pause_length=10):
     return userSessions
 
 def sortData(userLogData):
+    """
+    Method that takes list of dictionary objects and sorts the list based
+    on the "timestamp" value of that object.
+
+    Keywords: userLogData --- list of objects containing a "timestamp" key-value
+        pair.
+    """
     return userLogData.sort(
             key=lambda x: datetime.strptime(x["timestamp"],"%Y-%m-%dT%H:%M:%S.%f%z")
             )

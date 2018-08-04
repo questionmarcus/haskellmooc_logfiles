@@ -17,6 +17,17 @@ def main():
     return data
 
 def findSimilar(userInput, helpData):
+    """
+    Method to find the closest matching help text to a user's input (or in our case
+    the server log data)
+
+    This is done using the Sequence matching you can read more details about the method
+    here: https://docs.python.org/3/library/difflib.html#difflib.SequenceMatcher.
+
+    we can adjust the minimum similarity by increasing the ratio cut of value.
+    Here 0.6 is used as a baseline as it is stated in the python docs that this
+    is a reasonable estimate for similar strings
+    """
     helpList = list(helpData.keys())
     userInput = re.sub("let {.*} in ", "", userInput["input"])
     maxInd = []
