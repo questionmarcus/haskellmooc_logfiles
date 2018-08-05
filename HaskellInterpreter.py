@@ -1,4 +1,5 @@
 import pexpect
+from re import sub
 
 class HaskellInterpreter:
     """
@@ -37,4 +38,4 @@ class HaskellInterpreter:
         self._shell.sendline("timeout 2000000 (return $! "+code+")")
         self._shell.readline()
         self._shell.expect(self._prelude)
-        return self._shell.before
+        return sub("(\\x1b|\\r|\\n|\[.{1,2}m|\[\?1.{3})", "",self._shell.before)
