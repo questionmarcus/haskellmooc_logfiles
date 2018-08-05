@@ -34,7 +34,7 @@ def findSimilar(userInput, helpData):
     for text in helpList:
         maxInd.append(SequenceMatcher(None, userInput, text).ratio())
     if max(maxInd) >= 0.6:
-        return helpList[maxInd.index(max(maxInd))]
+        return helpData[helpList[maxInd.index(max(maxInd))]]
 
 if __name__ == "__main__":
     main()

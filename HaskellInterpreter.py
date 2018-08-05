@@ -35,7 +35,16 @@ class HaskellInterpreter:
         This method passes on the line of input to the ghci and returns the shell's
         output
         """
+        print("Processing: "+code)
         self._shell.sendline("timeout 2000000 (return $! "+code+")")
         self._shell.readline()
-        self._shell.expect(self._prelude)
+        try:
+            self._shell.expect(self._prelude,timeout=5)
+        except pexpect.TIMEOUT:
+            self._shell.sendcontrol("c")
+            self._shell.expect(self._prelude)
+            return "Timeout"
         return sub("(\\x1b|\\r|\\n|\[.{1,2}m|\[\?1.{3})", "",self._shell.before)
+
+    def endProcess(self):
+        self._shell.kill(0)

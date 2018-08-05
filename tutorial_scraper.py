@@ -4,9 +4,9 @@ import argparse
 import requests
 import regex
 import json
-from jsonify import saveAsJSON
 
 def main():
+    from jsonify import saveAsJSON
     parser = argparse.ArgumentParser(
         description="Commandline utility to take analyse the javascript used to"
             +" run the haskell MOOC  in order to find all help text enclosed in"

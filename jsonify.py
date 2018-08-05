@@ -5,6 +5,10 @@ import json
 from datetime import datetime,timedelta
 from requests import get
 
+from log_to_tutorial_matcher import findSimilar
+from tutorial_scraper import processPages,webLoadPageData
+from HaskellInterpreter import HaskellInterpreter
+
 def main():
     parser = argparse.ArgumentParser(
         description="Commandline utility to take server log files and convert"
@@ -27,6 +31,8 @@ def main():
         d = webParse(args.input)
     else:
         d = logfileParser(args.input)
+    d = getCodeErrors(d)
+    d = getExercise(d)
     US = userSessions(d)
     saveAsJSON(args.output[0]+"-logdata.json", d)
     saveAsJSON(args.output[0]+"-UserSessions.json", US)
@@ -60,7 +66,6 @@ def webParse(urls):
         for user in data:
             sortData(data[user])
         return data
-
 
 def logfileParser(files):
     """
@@ -198,6 +203,30 @@ def sortData(userLogData):
     return userLogData.sort(
             key=lambda x: datetime.strptime(x["timestamp"],"%Y-%m-%dT%H:%M:%S.%f%z")
             )
+
+def getCodeErrors(data):
+    logData = data.copy()
+    for index,user in enumerate(logData):
+        print("----------PROCESSING FOR USER "+user+"------------")
+        shell = HaskellInterpreter()
+        for data in logData[user]:
+            output = shell.runLine(data['input'])
+            if "Nothing" in output:
+                data["error"] = "Timeout"
+            elif "Just" not in output:
+                data["error"]= output
+            else:
+                data["error"] = None
+        shell.endProcess()
+    return logData
+
+def getExercise(data):
+    logData = data.copy()
+    helpText = json.loads(open("tutorialHelpText.json", "r").read())
+    for index,user in enumerate(logData):
+        for log in logData[user]:
+            log["exercise"] = findSimilar(log, helpText)
+    return logData
 
 if __name__ == "__main__":
     main()
