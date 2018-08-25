@@ -1,0 +1,40 @@
+2016-09-25 13:08:57.209776 UTC 856 > let { } in 3+ (2+5)
+2016-09-25 00:02:35.21282 UTC 796 > let { } in 42
+2016-09-26 22:08:32.46862 UTC 1099 > putStrLn ("good " ++ "morning" ++ " everyone")
+2016-09-28 00:06:37.032767 UTC 1500 > let { } in 1 /= 3
+2016-09-24 10:06:18.868142 UTC 654 > let { } in 4+(-3)
+2016-09-23 06:50:26.688725 UTC 456 > let {f x  =  x + 1;add3nums x y z  =  x + y + z } in (\x -> x + 1) 4
+2016-10-16 08:41:30.933014 UTC 2576 > let {product  =  foldr (*) 1 } in product
+2016-09-26 18:07:23.559095 UTC 1235 > let { } in "dings"/="bums"
+2016-09-21 19:35:18.612273 UTC 54 > let { } in if 1 then 0 else -1
+2016-09-23 17:42:28.194866 UTC 558 > let { } in 42 == 42
+2016-09-30 09:28:11.476011 UTC 1782 > let { } in if False then 42 else "foo"
+2016-09-25 18:52:58.455154 UTC 906 > putStrLn (show (6*7))
+2016-09-24 18:40:10.390389 UTC 674 > let { } in foldr (\elt acc -> acc:elt) "" "Reversing a string"
+2016-10-22 17:10:58.867418 UTC 3020 > let { } in False || False
+2016-10-06 18:28:21.979831 UTC 2378 > let { } in foldr (\elt acc -> [acc] : elt) "" "Reversing a string"
+2016-10-11 11:12:32.337372 UTC 1831 > let { } in [1,2,3] <[1,2,3,4]
+2016-11-03 06:23:23.805893 UTC 3118 > let { } in True xor False
+2016-09-28 11:14:51.089273 UTC 1555 > let {rizza a  =  a*5 } in rizza2 a b a*b*5
+2016-10-05 17:24:36.900277 UTC 1619 > let {f x  =  x+1;add3nums x y z  =  x + y + z;fl  =  \x -> x+1;add3numsl  =  \x y z -> x + y + z;sumprod  =  \x y -> [x+y,x*y];mylist  =  [2,4,6,8];answer  =  42;yourlist  =  [7, answer+1, 7*8] } in [100 .. 105]
+2016-10-03 14:56:33.511859 UTC 1178 > let {length  =  f where f [] = 0; f (x:xs) = 1 + f xs } in length
+2016-09-26 19:09:14.940965 UTC 1247 >  do { putStrLn "what is your name?"; x <- getLine; putStrLn ("hello " ++ x) }
+2016-09-28 09:47:26.215869 UTC 1538 > let {f x  =  x + 1;add3nums x y z  =  x + y + z;fl  =  (\x -> x + 1)  } in fl
+2016-09-21 18:02:55.129575 UTC 35 > let {f x  =  x+1;add3nums x y z  =  x + y + z;f1  =  4 } in f1
+2016-10-06 00:03:49.33173 UTC 2335 > let { } in foldr (\elt acc -> acc:elt) "Reversing a string" ""
+2016-10-10 09:32:44.377782 UTC 1171 >  do { putStrLn "what is your name?"; x <- getLine; putStrLn ("hello " ++ x) }
+2016-09-25 18:55:57.736291 UTC 112 > do { putStrLn "what is your name?"; x <- getLine; putStrLn ("hello " ++ x) }
+2016-09-21 17:35:46.827651 UTC 45 > let { } in 4+-3
+2016-10-03 03:45:45.484206 UTC 205 > let { } in "foo" /= "bar"
+2016-09-21 19:57:47.36238 UTC 81 > let {f x  =  x + 1;fl  =  \x -> x + 1;ad3  =  \x y z -> x + y + z;fd  =  ad3 1 2;sumprod  =  \x y -> [x+y, x*y];myplist  =  [1..];answer = 42;ylist  =  [7,answer+1, 7*8] } in head [1..10]
+2016-10-17 00:14:03.356419 UTC 2865 > let { } in True `xor` False
+2016-10-03 20:28:55.886964 UTC 2070 > let { } in if 2*2==4 then "happy" else "sad"
+2016-09-22 18:28:50.266762 UTC 364 > let {f x  =  x+1;add2sums x y z  =  x+y+z } in \x y z -> x+y+z
+2016-09-25 19:42:29.318075 UTC 177 > do {putStrLn "asdf"; x<-getLine; putStrln (x++"asd")}
+2016-10-08 16:13:54.729725 UTC 2404 > let { } in "Aardvark"<"Aaronic"
+2016-10-05 21:56:54.620639 UTC 2329 > let {answer  =  42 } in answer
+2016-09-27 18:22:40.446112 UTC 759 > let { } in not (not False)
+2016-09-22 07:41:57.684189 UTC 191 > let {f x  =  x + 1;add3nums x y z  =  x + y + z;fl  =  \x -> x + 1;add3numsl  =  \x y z -> x + y + z;sumprod  =  \x y -> [x+y, x*y] } in sumprod 3 8
+2016-10-02 14:16:51.222923 UTC 1848 > let { } in True || True
+2016-10-20 23:34:03.324677 UTC 2981 > let { } in foldr (:) "Reversing a string" ""
+2016-10-03 12:59:07.863133 UTC 1870 > let { } in 3 `elem` [1,2,3,4,5]

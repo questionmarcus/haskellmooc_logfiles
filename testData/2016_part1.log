@@ -1,0 +1,40 @@
+2016-09-27 06:53:37.94261 UTC 1284 > sort [42,13,22]
+2016-09-27 11:25:36.748843 UTC 1317 > let {f x  =  x + 1;add3nums x y z  =  x + y + z;f1  =  \x -> x+1;add3nums1  =  \x y z -> x + y + z } in add3ums1 1 2 3
+2016-09-26 04:39:21.144638 UTC 932 > let {f x  =  x + 1;add3nums x y z  =  x + y + z;fl  =  \x -> x + 1;add3numsl  =  \x y z -> x + y + z;sumprod  =  \x y -> [x+y, x*y];mylist  =  [2,4,6,8];answer  =  42;yourlist  =  [7, answer+1, 7*8] } in [0..5]
+2016-09-22 13:12:17.659482 UTC 202 > let { } in 42  `max` [13]
+2016-09-29 21:13:59.597184 UTC 1683 > reverse "hello"
+2016-09-30 04:49:44.13652 UTC 1717 > do { putStrLn "what is your name?"; x <- getLine; putStrLn ("hello " ++ x) }
+2016-10-15 21:25:17.465466 UTC 2761 > let {f x  =  x+1;add3nums x y z  =  x + y + z;fl  =  \x -> x+1;add3numsl  =  \x y z -> x + y + z;sumprod  =  \x y -> [x+y,x*y];mylist  =  [2,4,6,8];answer  =  42;yourlist  =  [7, answer+1, 7*8] } in ['a'..'z'] !! 33
+2016-09-29 23:17:51.2123 UTC 1695 > do { putStrLn "what is your name?"; n<-getLine; let nUpper = map toUpper n in putStrLn ("HELLO " ++ nUpper) }
+2016-10-12 18:54:53.9468 UTC 2682 > let {f x  =  x+1 } in \x -> x+1
+2016-10-18 06:38:19.855825 UTC 2837 > let { } in min 5 $ max 3 4
+2016-09-28 02:43:21.900416 UTC 1436 > let {f x  =  x + 1 } in \x -> x + 1
+2016-11-02 17:54:29.320846 UTC 3159 > let { } in f 3
+2016-09-28 21:02:39.103697 UTC 1581 > let {f x  =  x + 1;add3nuums x y z  =  x + y + z;fl  =  \x -> x+1 } in fl
+2016-09-24 08:06:40.200519 UTC 562 > let {naswer  =  42 } in answer
+2016-09-28 00:13:55.377058 UTC 1443 > let { } in 4+-3
+2016-09-27 15:32:24.006764 UTC 1367 > let {answer  =  42;double  =  answer * 2 } in double
+2016-09-22 16:25:09.624705 UTC 254 > let { } in ((6))*(((7)))
+2016-09-28 12:43:01.692852 UTC 1508 > let { } in 1 /= 2
+2016-09-30 04:08:35.098795 UTC 1716 > let { } in 42==42
+2016-10-03 15:22:17.101973 UTC 2024 > let { } in not True
+2016-10-01 04:35:12.9099 UTC 1460 > do { putStrLn "what is your name?"; n<-getLine; let nUpper = map toUpper n in putStrLn ("HELLO " ++ nUpper) }
+2016-09-24 02:22:20.532826 UTC 70 > let { } in foldl (\acc elt -> elt:acc) "" "Reversing a string"
+2016-09-22 16:06:06.970086 UTC 241 > let {f x  =  x+1;add3num x y z  =  x + y + z;f1  =  \x -> x + 1;add3nums1  =  \x y z -> x + y + z;sumprod  =  \x y -> [x+y,x*y];mylist  =  [2,4,6,8];answer  =  42;yourlist  =  [7,answer+1,7*8] } in yourlist
+2016-10-17 16:20:00.445534 UTC 2822 > let {f x  =  x-1 } in \x -> x-1
+2016-10-16 20:25:03.987814 UTC 2758 > let { } in foldr (\acc elt -> elt:acc) "" "Reversing a string"
+2016-10-20 14:23:12.076517 UTC 2903 > let { } in map (\inputs -> xor (fst inputs) (snd inputs)) [(x,y) | x<-[False, True], y<-[False, True]]
+2016-10-24 21:47:47.502583 UTC 3001 > putStrLn (show (6*7))
+2016-09-26 18:59:18.206284 UTC 1196 > let { } in 10 > 9
+2016-10-30 10:01:21.828926 UTC 3096 > let {answer  =  42 } in answer
+2016-09-22 16:02:15.917794 UTC 241 > let {f x  =  x+1 } in f 3
+2016-09-24 17:14:44.398074 UTC 605 > let {f x  =  x+1;add3nums x y z  =  x + y + z;fl  =  \x -> x+1;add3numsl  =  \x y z -> x + y + z;sumprod  =  \x y -> [x+y,x*y];mylist  =  [2,4,6,8];answer  =  42;yourlist  =  [7, answer+1, 7*8] } in [1,2,3] !! 2
+2016-10-03 13:06:36.113785 UTC 2008 > let {answer  =  42;answer  =  42 } in answer
+2016-09-25 16:39:28.767481 UTC 828 > let { } in if 2*2==4 then "happy" else "sad"
+2016-10-04 09:43:28.126411 UTC 2142 > let { } in min (max 3 4) 5
+2016-10-03 08:42:56.188172 UTC 305 > let { } in foldl (\acc elt -> elt:acc) "" "Reversing a string"
+2016-10-04 11:39:48.576758 UTC 2130 > let {f x  =  x+1;add3nums x y z  =  x + y + z;f1  =  \x -> x+1;add3nums1  =  \x y z -> x + y + z;sumprof  =  \x y -> [x+y,x*y];sumprod  =  \x y -> [x+y,x*y];mylist  =  [2,4,6,8];answer  =  42;yourlist  =  [7, answer+1, 7*8] } in [100..105]
+2016-09-27 13:57:28.079945 UTC 1135 > 23*36
+2016-09-27 15:21:01.689726 UTC 1367 > let { } in ((5)*(((4))))
+2016-10-03 03:01:23.567862 UTC 1952 > let {f x  =  x + 1;add3nums x y z  =  x + y + z;f1  =  \x -> x+1;add3numsl  =  \x y z -> x + y + z;sumprod  =  \x y -> [x+y, x*y];mylist  =  [2,4,6,8];answer  =  42;yourlist  =  [7, answer+1, 7*8] } in head []
+2016-10-02 12:01:07.735282 UTC 1522 > let { } in True && True
