@@ -143,7 +143,7 @@ def userSessions(data, max_pause_length=10):
     """
     userSessions = {}
     for user in data:
-        # Create List of timestamps as datetime objects, which can be sorted
+        # Create List of timestamps as datetime objects, which are already sorted
         timestamps = []
         for obj in data[user]:
             # timestamp strings in ISO format
@@ -158,7 +158,7 @@ def userSessions(data, max_pause_length=10):
         session = {}
 
         # Go through every timestamp in order of appearance
-        for time in sorted(timestamps):
+        for time in timestamps:
             currTime = time
             if not sessStart:
                 # if session start not define, (at start of data) define it
@@ -168,10 +168,9 @@ def userSessions(data, max_pause_length=10):
                 IET = currTime - prevTime # IET (Inter Event Time)
                 if IET > timedelta(0,60*max_pause_length):
                     # if IET > 10 minutes (600 seconds)
-                   n += 1
                    sessTime = prevTime - sessStart
-                   session['start'] = sessStart.isoformat()
-                   session['end'] = prevTime.isoformat()
+                   session['start'] = sessStart.isoformat()[:-6]+".000000+0000"
+                   session['end'] = prevTime.isoformat()[:-6]+".000000+0000"
                    session['inputs'] = n
                    session['duration (s)'] = (prevTime - sessStart).total_seconds()
                    sessStart = currTime
@@ -182,8 +181,8 @@ def userSessions(data, max_pause_length=10):
                     n += 1
             prevTime = currTime
         # Once last input is record, define this as end of the session
-        session['start'] = sessStart.isoformat()
-        session['end'] = prevTime.isoformat()
+        session['start'] = sessStart.isoformat()[:-6]+".000000+0000"
+        session['end'] = prevTime.isoformat()[:-6]+".000000+0000"
         session['inputs'] = n
         session['duration (s)'] = (prevTime - sessStart).total_seconds()
         sessions.append(session)
