@@ -2,7 +2,7 @@ import unittest
 import jsonify
 import json
 
-class JsonifyTestSuite(unittest.TestCase):
+class JsonifyTestClass(unittest.TestCase):
 
     def testWebParse(self):
         # Use URL from this project, known number of entries (100)
