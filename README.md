@@ -17,10 +17,10 @@ All other Python libraries are included in the standard Python install, or with 
 2. Generate JSON data from server logs using `jsonify.py`
     * `./jsonify.py --tut-data <FILEPATH TO OUTPUT FROM STEP 1> -i [<LIST OF SERVER LOG FILES>] -o <OUTPUT FILENAME PREFIX>`
     * Use the output file name prefix as the script generates two files:
-        1. <PREFIX>-logdata.json with the parsed log data
-        2. <PREFIX>-UserSessions.json with users session data (**EXPERIMENTAL FEATURE**)
+        1. PREFIX-logdata.json with the parsed log data
+        2. PREFIX-UserSessions.json with users session data (**EXPERIMENTAL FEATURE**)
     * **WARNING: THIS SCRIPT WILL TAKE A LONG TIME TO RUN DUE TO RUNNING OF ~335800 LINES OF HASKELL** (On a standard laptop this took ~6 hours for each year)
-3. Use the JSON output for your own analysis or host the data in your own (api)[https://github.com/questionmarcus/mooc-flask-api]
+3. Use the JSON output for your own analysis or host the data in your own [api](https://github.com/questionmarcus/mooc-flask-api)
 
 ## Scripts included
 
