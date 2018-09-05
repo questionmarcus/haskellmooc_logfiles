@@ -6,15 +6,16 @@ from datetime import datetime
 from difflib import SequenceMatcher
 
 def main():
-    logData = json.loads(open("2016-MOOC-logdata.json","r").read())
-    tutorialsData = json.loads(open("tutorialHelpText.json", "r").read())
-    data = []
-    for userData in logData["420"]:
-        if findSimilar(userData, tutorialsData) != None:
-            userData["exercise"] = tutorialsData[findSimilar(userData,tutorialsData)]
-            data.append(userData)
-    data.sort(key=lambda x: datetime.strptime(x["timestamp"],"%Y-%m-%dT%H:%M:%S.%f%z"))
-    return data
+#    logData = json.loads(open("2016-MOOC-logdata.json","r").read())
+#    tutorialsData = json.loads(open("tutorialHelpText.json", "r").read())
+#    data = []
+#    for userData in logData["420"]:
+#        if findSimilar(userData, tutorialsData) != None:
+#            userData["exercise"] = tutorialsData[findSimilar(userData,tutorialsData)]
+#            data.append(userData)
+#    data.sort(key=lambda x: datetime.strptime(x["timestamp"],"%Y-%m-%dT%H:%M:%S.%f%z"))
+#    return data
+    print("Running this script independently has been depreciated")
 
 def findSimilar(userInput, helpData):
     """

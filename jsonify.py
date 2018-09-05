@@ -26,6 +26,10 @@ def main():
             help="The filepath(s) or URL(s) (if --web flag is set) to parse")
     parser.add_argument("-o", "--output", nargs=1, required=True,
             help="The output file PREFIX for the final parsed json file")
+    parser.add_argument("--tut-data", nargs=1, required=True,
+            help="The filepath to the data containing the tutorial help text"
+            +" returned by the tutorial_scraper.py utility. RUN THE TUTORIAL"
+            +"_SCRAPER UTILITY BEFORE THIS")
     args = parser.parse_args(sys.argv[1:])
     if args.web == True:
         d = webParse(args.input)
