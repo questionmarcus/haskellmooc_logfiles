@@ -30,7 +30,7 @@ All other Python libraries are included in the standard Python install, or with 
 |`HaskellInterpreter.py`| Python class that acts as a façade to the GHCi and runs strings of Haskell data in the GHCi and returns the output|
 |`jsonify.py`| Tool that takes server log files and combines them into JSON formatted data (run `./jsonify.py -h` for usage details|
 |`log_to_tutorial_matcher.py`| Provides utility to match user input data to tutorial data based on information in help text |
-|`RunTests.py`| Run the test suit, combining the tests in each of the `test_<script-name>/py`|
+|`RunTests.py`| Run the test suit, combining the tests in each of the `test_<script-name>.py`|
 |`tutorial_scraper.py`| Utility that analyses javascript files used to create MOOC tutorial pages and finds all help text entered in `<code></code>` tags (run `tutorial_scraper.py -h` for usage details)|
 
 ## Background
