@@ -9,3 +9,6 @@ __pycache__/
 # Ignore URLs file used for testing
 logdataURLs
 tutorialPagesURLs
+
+# Ignore test coverage files
+.coverage
