@@ -74,7 +74,10 @@ publications/presentations you generate from your analysis.
 
 Thanks,
 
-Marcus Lancaster &
+Marcus Lancaster Summer 2018
+
+&
+
 Jeremy Singer
 University of Glasgow
 March 2018
